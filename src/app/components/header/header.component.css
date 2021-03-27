@@ -1,7 +1,9 @@
 img{
-    max-height:100%;
+    margin-bottom: auto;
+    max-height:80%;
 }
 
 mat-toolbar{
     background-color: white;
+    height: 80px;
 }
