@@ -1,0 +1,18 @@
+.input-field{
+    height: 80px;
+    color: white;
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-button{
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary);
+    border: none;
+    color: white;
+}

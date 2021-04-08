@@ -1,0 +1,11 @@
+<div class="input-field mat-elevation-z4">
+    <input
+    [(ngModel)]="message_text"
+    placeholder="Schreib etwas..."
+    class="ml-4 mr-2 form-control rounded-pill"
+    (keyup.enter)="addMessage(message_text)"
+    >
+    <button type="submit" class="input-button mr-4 rounded-circle d-flex align-items-center">
+        <mat-icon aria-hidden="false" aria-label="Send" (click)="addMessage(message_text)">send</mat-icon>
+    </button>
+</div>
