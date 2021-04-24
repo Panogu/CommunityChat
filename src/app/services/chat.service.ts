@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Message } from '../message';
 
 @Injectable({
@@ -8,17 +8,25 @@ export class ChatService {
 
   messages: Message[] = [];
 
+  private subs: [() => void] = [() => {}];
+
   add(message: Message) {
     // Assign the current timestamp
     message.timestamp = Date.now();
+    message.username = "Peter";
     this.messages.push(message);
+    window.setTimeout(() => this.subs.forEach(fn => fn()), 1);
   }
 
   clear() {
     this.messages = [];
   }
 
-  constructor() { }
+  subscribe(fn: () => void){
+    this.subs.push(fn);
+  }
+
+  constructor() {  }
 
   
 }
