@@ -10,10 +10,10 @@ export class ChatService {
 
   private subs: [() => void] = [() => {}];
 
-  add(message: Message) {
+  add(message: Message, username: string) {
     // Assign the current timestamp
     message.timestamp = Date.now();
-    message.username = "Peter";
+    message.username = username;
     this.messages.push(message);
     window.setTimeout(() => this.subs.forEach(fn => fn()), 1);
   }

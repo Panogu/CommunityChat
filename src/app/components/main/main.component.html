@@ -1,8 +1,9 @@
-<main id="chatverlauf-container">
+<app-username-input *ngIf="usernameService.currentUsername == ''"></app-username-input>
+<main *ngIf="usernameService.currentUsername != ''" id="chatverlauf-container">
     <div id="chatverlauf" class="chatverlauf d-flex flex-column w-100 px-3">
         <div class="single-message rounded-lg border border-dark align-self-end my-3 col-5 p-2" *ngFor="let message of chatService.messages; let i = index">
             <div class="header d-flex justify-content-between mb-2">
-                <span>{{message.username}}</span>
+                <span class="username" [ngStyle]="{'color': usernameService.userColor}">{{message.username}}</span>
                 <span>{{getTimeFromTimestamp(message.timestamp)}}</span>
             </div>
             <div class="content">

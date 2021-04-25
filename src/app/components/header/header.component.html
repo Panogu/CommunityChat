@@ -1,5 +1,8 @@
 <header>
     <mat-toolbar class="mat-elevation-z6">
         <img src="../../../assets/images/logo_de.jpg">
+        <div *ngIf="usernameService.currentUsername" class="ml-auto username">
+            <span>Nutzername: <span [ngStyle]="{'color': usernameService.userColor}">{{usernameService.currentUsername}}</span></span>
+        </div>
     </mat-toolbar>
 </header>

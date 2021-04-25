@@ -4,8 +4,10 @@
     placeholder="Schreib etwas..."
     class="ml-4 mr-2 form-control rounded-pill"
     (keyup.enter)="addMessage(message_text)"
+
+    [attr.disabled]="usernameService.currentUsername != '' ? null : ''"
     >
-    <button type="submit" class="input-button mr-4 rounded-circle d-flex align-items-center">
+    <button type="submit" class="input-button mr-4 rounded-circle d-flex align-items-center" [attr.disabled]="usernameService.currentUsername != '' ? null : ''">
         <mat-icon aria-hidden="false" aria-label="Send" (click)="addMessage(message_text)">send</mat-icon>
     </button>
 </div>

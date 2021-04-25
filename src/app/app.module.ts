@@ -12,6 +12,7 @@ import { MainComponent } from './components/main/main.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { FormsModule } from '@angular/forms';
+import { UsernameInputComponent } from './components/username-input/username-input.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     MainComponent,
-    InputFieldComponent
+    InputFieldComponent,
+    UsernameInputComponent
   ],
   imports: [
     BrowserModule,

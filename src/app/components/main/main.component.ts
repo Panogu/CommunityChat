@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from '../../message';
 import { ChatService } from '../../services/chat.service';
+import { UsernameService } from '../../services/username.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,7 +12,7 @@ import { Subscription } from 'rxjs';
 
 export class MainComponent implements OnInit {
 
-  constructor(public chatService: ChatService) { 
+  constructor(public chatService: ChatService, public usernameService: UsernameService) { 
     chatService.subscribe(() => {
       const messageBody = document.querySelector('#chatverlauf-container');
       if (messageBody)

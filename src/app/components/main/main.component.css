@@ -18,6 +18,10 @@ main{
     flex-basis: 0;
 }
 
+.single-message .username {
+    font-weight: 500;
+}
+
 .header{
     font-size: 85%;
     font-weight: 300;
