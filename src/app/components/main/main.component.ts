@@ -24,7 +24,7 @@ export class MainComponent implements OnInit {
   }
 
   public getTimeFromTimestamp (timestamp: number): string {
-    return new Date(timestamp).toISOString().slice(-13, -8);;
+    return new Date(timestamp).toLocaleTimeString().slice(0, -3);
   }
 
 }

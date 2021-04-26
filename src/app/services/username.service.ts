@@ -19,8 +19,8 @@ export class UsernameService {
     var q = 1 - f;
     switch(i % 6){
         case 0: r = 1; g = f; b = 0; break;
-        case 1: r = q; g = 1; b = 0; break;
-        case 2: r = 0; g = 1; b = f; break;
+        case 1: r = q; g = 0; b = 1; break; // Modified for contrast
+        case 2: r = 1; g = 0; b = f; break; // Modified for contrast
         case 3: r = 0; g = q; b = 1; break;
         case 4: r = f; g = 0; b = 1; break;
         case 5: r = 1; g = 0; b = q; break;
