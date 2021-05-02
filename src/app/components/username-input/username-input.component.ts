@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UsernameService } from '../../services/username.service';
+import { UserService } from 'src/app/shared/services/user.service';
+import { ChatService } from 'src/app/shared/services/chat.service';
+
 
 @Component({
   selector: 'app-username-input',
@@ -10,12 +12,13 @@ export class UsernameInputComponent implements OnInit {
 
   public username = "";
 
-  constructor(private usernameService: UsernameService) { }
+  constructor(private chatService: ChatService, private usernameService: UserService) {  }
 
   ngOnInit(): void {
   }
 
   public setUsername(username: string): void {
+
     if ( !username?.trim() ) {
     
       alert( "Bitte Nutzernamen eingeben!" );
@@ -24,6 +27,8 @@ export class UsernameInputComponent implements OnInit {
     }
 
     this.usernameService.setUsername(username);
+
+    this.username = "";
   }
 
 }

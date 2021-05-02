@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Message } from '../../message';
-import { ChatService } from '../../services/chat.service';
-import { UsernameService } from '../../services/username.service';
+import { Message } from '../../shared/model/message';
+import { ChatService } from '../../shared/services/chat.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,19 +12,21 @@ import { Subscription } from 'rxjs';
 
 export class MainComponent implements OnInit {
 
-  constructor(public chatService: ChatService, public usernameService: UsernameService) { 
-    chatService.subscribe(() => {
+  constructor(public chatService: ChatService, public usernameService: UserService) {  }
+
+  ngOnInit(): void {
+    this.chatService.subscribe(() => {
       const messageBody = document.querySelector('#chatverlauf-container');
       if (messageBody)
         messageBody.scrollTop = messageBody.scrollHeight;
     });
   }
 
-  ngOnInit(): void {
+  public scrollToBottom() {
   }
 
   public getTimeFromTimestamp (timestamp: number): string {
-    return new Date(timestamp).toLocaleTimeString().slice(0, -3);
+    return new Date(timestamp).toLocaleTimeString()/*.slice(0, -3)*/;
   }
 
 }

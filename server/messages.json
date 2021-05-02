@@ -1,0 +1,76 @@
+{
+  "messages": [
+    {
+      "id": 1,
+      "username": "Panogu",
+      "timestamp": 1619870041244,
+      "content": "Hallo Welt!"
+    },
+    {
+      "id": 2,
+      "username": "Panogu",
+      "timestamp": 1619870055078,
+      "content": "Hallo Welt!"
+    },
+    {
+      "id": 3,
+      "username": "Adrian",
+      "timestamp": 1619870339705,
+      "content": "Test"
+    },
+    {
+      "id": 4,
+      "username": "Adrian",
+      "timestamp": 1619870392577,
+      "content": "123456"
+    },
+    {
+      "id": 5,
+      "username": "Adrian",
+      "timestamp": 1619870419614,
+      "content": "Hallo Welt!"
+    },
+    {
+      "id": 6,
+      "username": "Adrian",
+      "timestamp": 1619870851902,
+      "content": "123123"
+    },
+    {
+      "id": 7,
+      "username": "Panogu",
+      "timestamp": 1619870976236,
+      "content": "Abc123"
+    },
+    {
+      "id": 8,
+      "username": "Adrian",
+      "timestamp": 1619871021939,
+      "content": "Hallo Welt!"
+    },
+    {
+      "id": 9,
+      "username": "Adrian",
+      "timestamp": 1619871374529,
+      "content": "Testnachricht"
+    },
+    {
+      "id": 10,
+      "username": "Adrian",
+      "timestamp": 1619871698973,
+      "content": "Test2"
+    },
+    {
+      "id": 11,
+      "username": "Peter",
+      "timestamp": 1619871919470,
+      "content": "Guten Tag!"
+    },
+    {
+      "id": 12,
+      "username": "Peter",
+      "timestamp": 1619871935639,
+      "content": "Das Leben ist schön!"
+    }
+  ]
+}

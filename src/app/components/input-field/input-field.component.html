@@ -5,9 +5,9 @@
     class="ml-4 mr-2 form-control rounded-pill"
     (keyup.enter)="addMessage(message_text)"
 
-    [attr.disabled]="usernameService.currentUsername != '' ? null : ''"
+    [attr.disabled]="usernameService.person.id != -1 ? null : ''"
     >
-    <button type="submit" class="input-button mr-4 rounded-circle d-flex align-items-center" [attr.disabled]="usernameService.currentUsername != '' ? null : ''">
-        <mat-icon aria-hidden="false" aria-label="Send" (click)="addMessage(message_text)">send</mat-icon>
+    <button type="button" (click)="addMessage(message_text)" class="input-button mr-4 rounded-circle d-flex align-items-center" [attr.disabled]="usernameService.person.id != -1 ? null : ''">
+        <mat-icon aria-hidden="false" aria-label="Send">send</mat-icon>
     </button>
 </div>
