@@ -41,4 +41,11 @@ export class UserService {
     // Send username request to the server
     this.websocketService.sendToWebsocket('register_user', username);
   }
+
+  getSlicedUsername(username: string, count: number){
+    if (username.length > count){
+      return username.slice(0, count)+'...';
+    }
+    return username;
+  }
 }

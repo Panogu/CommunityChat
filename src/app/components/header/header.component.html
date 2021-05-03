@@ -2,7 +2,7 @@
     <mat-toolbar class="mat-elevation-z6">
         <img src="../../../assets/images/logo_de.jpg">
         <div *ngIf="usernameService.person.username" class="ml-auto username">
-            <span>Nutzername: <span [ngStyle]="{'color': usernameService.person.color}">{{usernameService.person.username}}</span></span>
+            <span>Nutzername: <span [ngStyle]="{'color': usernameService.person.color}" [innerHTML]="usernameService.getSlicedUsername(usernameService.person.username, 25)"></span></span>
         </div>
     </mat-toolbar>
 </header>

@@ -1,49 +1,29 @@
-// Based on: https://stackoverflow.com/questions/1484506/random-color-generator
-function generateColor(numOfSteps, step) {
-    var r, g, b;
-    var h = step / numOfSteps;
-    var i = ~~(h * 6);
-    var f = h * 6 - i;
-    var q = 1 - f;
-    switch (i % 6) {
-        case 0:
-            r = 1;
-            g = f;
-            b = 0;
-            break;
-        case 1:
-            r = q;
-            g = 0;
-            b = 1;
-            break; // Modified for contrast
-        case 2:
-            r = 1;
-            g = 0;
-            b = f;
-            break; // Modified for contrast
-        case 3:
-            r = 0;
-            g = q;
-            b = 1;
-            break;
-        case 4:
-            r = f;
-            g = 0;
-            b = 1;
-            break;
-        case 5:
-            r = 1;
-            g = 0;
-            b = q;
-            break;
-        default:
-            r = 0;
-            g = 1;
-            b = 1;
-            break;
+// https://stackoverflow.com/questions/10756313/javascript-jquery-map-a-range-of-numbers-to-another-range-of-numbers
+function scale(number, inMin, inMax, outMin, outMax) {
+    return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+// Generates a HSL color
+function generateColor(colors, colorNum) {
+    if (colors < 1)
+        colors = 1; // defaults to one color - avoid dividing by zero
+    console.log(colorNum);
+    // Split the color wheel in three quarters (two bright, one dark)
+    let color_position = colorNum / colors;
+    if (color_position < 0.375) {
+        color_position = scale(colorNum, 0, colors * 0.375, -59, 30);
+        if (color_position < 0) {
+            color_position = 360 + color_position;
+        }
+        return "hsl(" + Math.floor(color_position) + ",100%,50%)";
     }
-    var c = "#" + ("00" + (~~(r * 255)).toString(16)).slice(-2) + ("00" + (~~(g * 255)).toString(16)).slice(-2) + ("00" + (~~(b * 255)).toString(16)).slice(-2);
-    return (c);
+    else if (color_position < 0.625) {
+        color_position = scale(colorNum, colors * 0.375, colors * 0.625, 210, 300);
+        return "hsl(" + Math.floor(color_position) + ",100%,50%)";
+    }
+    else {
+        color_position = scale(colorNum, colors * 0.625, colors, 0, 359);
+        return "hsl(" + Math.floor(color_position) + ",100%,25%)";
+    }
 }
 // THE ACTUAL APP
 "use strict";
@@ -124,14 +104,14 @@ wsServer.on('request', function (request) {
                   }
                 });*/
                 // get random color and send it back to the user
-                let userColor = generateColor(256, Math.floor(Math.random() * 256));
+                let userColor = generateColor(75, Math.floor(Math.random() * 75));
                 let newPerson = {
                     id: persons.length,
                     username: username,
                     color: userColor
                 };
                 persons.push(newPerson);
-                console.log((new Date()) + ' New user is known as: ' + newPerson.username + ' with ID: ' + newPerson.id);
+                console.log((new Date()) + ' New user is known as: ' + newPerson.username + ' with ID: ' + newPerson.id + ' and color: ' + newPerson.color);
                 // Send the new person
                 connection.sendUTF(JSON.stringify({ type: 'username_accepted', content: JSON.stringify(newPerson) }));
             }
