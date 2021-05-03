@@ -2,7 +2,7 @@
 
 <main *ngIf="usernameService.person.id != -1" id="chatverlauf-container">
     <div id="chatverlauf" class="chatverlauf d-flex flex-column w-100 px-3">
-        <div [class.align-self-end] = "usernameService.person.id === message.user.id" [class.ml-5] = "usernameService.person.id != message.user.id" [class.mr-5] = "usernameService.person.id == message.user.id" class="single-message rounded-lg border border-dark my-3 col-6 p-2" *ngFor="let message of chatService.messages; let i = index">
+        <div [class.white] = "usernameService.person.id != message.user.id" [class.align-self-end] = "usernameService.person.id === message.user.id" [class.ml-5] = "usernameService.person.id != message.user.id" [class.mr-5] = "usernameService.person.id == message.user.id" class="single-message rounded-lg border border-dark my-3 col-6 p-2" *ngFor="let message of chatService.messages; let i = index">
             <div class="header d-flex justify-content-between mb-2">
                 <span class="username" [ngStyle]="{'color': message.user.color}" [innerHTML]="usernameService.getSlicedUsername(message.user.username, 25)"></span>
                 <span>{{getTimeFromTimestamp(message.timestamp)}}</span>
