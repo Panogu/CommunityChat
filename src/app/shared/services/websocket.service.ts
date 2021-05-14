@@ -10,7 +10,7 @@ import { UserService } from './user.service';
 export class WebsocketService {
 
   // URL to the server from which the messages are served
-  private messagesUrl = "ws:localhost:1337";
+  private messagesUrl = "wss://ws.panogu.synology.me";
 
   socket: Subject<any>;
 
