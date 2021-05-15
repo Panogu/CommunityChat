@@ -11,6 +11,7 @@
 
 .input-button{
     width: 40px;
+    /*max-width: 575.98px; */
     height: 40px;
     background-color: var(--primary);
     border: none;
