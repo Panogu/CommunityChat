@@ -6,8 +6,21 @@ img{
 mat-toolbar{
     background-color: white;
     height: 80px;
+    overflow: hidden;
 }
 
 .username{
     font-weight: 400;
+}
+
+@media (max-width: 575.98px){
+    .username{
+        font-size: 10px;
+    } 
+}
+
+@media (max-width: 400px){
+    .username{
+        font-size: 12px;
+    } 
 }
