@@ -7,11 +7,12 @@
         <input
         [(ngModel)]="password"
         placeholder="Password"
+        type="password"
         class="col-6 form-control rounded-pill mat-elevation-z2 border-none"
-        (keyup.enter)="adminService.login(password)"
+        (keyup.enter)="login(password)"
         >
-        <button type="submit" class="input-button mat-elevation-z2 rounded-circle d-flex align-items-center ml-2">
-            <mat-icon aria-hidden="false" aria-label="Send" (click)="adminService.login(password)">lock_open</mat-icon>
+        <button type="submit" class="input-button mat-elevation-z2 rounded-circle d-flex align-items-center justify-content-center ml-2">
+            <mat-icon aria-hidden="false" aria-label="Send" (click)="login(password)">lock_open</mat-icon>
         </button>
     </div>
 </div>

@@ -1,3 +1,18 @@
+<ng-template #authModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title mb-0">Authorisierung benötigt</h2>
+        </div>
+        <div class="modal-body">
+            <p class="my-1">Sollen wirklich alle Nachrichten gelöscht werden?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close('Delete click')">Löschen</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel click')">Abbrechen</button>
+        </div>
+    </div>
+</ng-template>
+
 <div class="sidebar mat-elevation-z6" [ngClass]="{'hidden' : display == false, 'admin': adminService.showAdminTheme}">
     <div class="inner w-100 h-100 px-3 pb-3 d-flex flex-column">
         <div class="d-flex align-items-center head w-100">
@@ -22,8 +37,12 @@
 
         <hr class="ruler bottom">
 
-        <a *ngIf="usernameService.person.id != -1" href="javascript:void(0);" class="login-link mt-auto w-100" (click)="openLogin()">
+        <a *ngIf="usernameService.person.id != -1 && adminService.loggedIn == false" href="javascript:void(0);" class="btn btn-secondary login-link mt-auto w-100" (click)="openLogin()">
             Admin Login
+        </a>
+
+        <a *ngIf="adminService.loggedIn == true" href="javascript:void(0);" class="btn btn-danger login-link mt-auto w-100" (click)="openDeletionModal(authModal)">
+            Chat löschen
         </a>
     </div>
 </div>

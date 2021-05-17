@@ -1,7 +1,22 @@
 <app-username-input *ngIf="displayMe('username-input')"></app-username-input>
 <app-admin *ngIf="displayMe('admin')"></app-admin>
 
-<main *ngIf="displayMe('chatverlauf')" id="chatverlauf-container">
+<ng-template #authModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title mb-0">Authorisierung benötigt</h2>
+        </div>
+        <div class="modal-body">
+            <p class="my-1">Soll die Nachricht mit ID {{messageToDelete}} wirklich gelöscht werden?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close('Delete click')">Löschen</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel click')">Abbrechen</button>
+        </div>
+    </div>
+</ng-template>
+
+<main *ngIf="displayMe('chatverlauf')" id="chatverlauf-container" [ngClass]="{'admin': adminService.showAdminTheme}">
     <div id="chatverlauf" class="chatverlauf d-flex flex-column w-100 px-3">
         <div [ngClass]="(usernameService.person.id === message.user.id ? 'align-self-end' : 'align-self-start') + ' ' + (usernameService.person.id != message.user.id ? 'white' : '')" class="mx-2 mx-lg-5 single-message rounded-lg mat-elevation-z3 my-3 p-2" *ngFor="let message of chatService.messages; let i = index">
             <div class="header d-flex justify-content-between mb-2">
@@ -9,7 +24,7 @@
                 <span>{{getTimeFromTimestamp(message.timestamp)}}</span>
                 
                 <span *ngIf="adminService.loggedIn" class="closing-icon">
-                    <a href="javascript:void(0);" (click)="deleteMessage()">
+                    <a href="javascript:void(0);" (click)="openDeletionModal(authModal, message.id)">
                         <mat-icon aria-hidden="false" aria-label="Cancel">cancel</mat-icon>
                     </a>
                 </span>

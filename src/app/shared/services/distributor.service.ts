@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from './websocket.service';
+import { AdminService } from './admin.service';
 import { ChatService } from './chat.service';
 import { UserService } from './user.service';
 
@@ -8,7 +9,7 @@ import { UserService } from './user.service';
 })
 export class DistributorService {
 
-  constructor(private websocketService: WebsocketService, private chatService: ChatService, private userService: UserService) {
+  constructor(private websocketService: WebsocketService, private chatService: ChatService, private userService: UserService, private adminService: AdminService) {
 
   }
 
@@ -35,6 +36,10 @@ export class DistributorService {
         this.chatService.messages = JSON.parse(data.content);
         this.chatService.displayMessage();
       }
+      if (data.type == 'messages_deleted'){
+        console.log("Response from websocket: " + data.type);
+        this.chatService.messages = JSON.parse(data.content);
+      }
       // Add all users
       if (data.type == 'users_online'){
         console.log("Response from websocket: " + data.type);
@@ -49,6 +54,14 @@ export class DistributorService {
       if (data.type == 'user_logged_out'){
         console.log("Response from websocket: " + data.type);
         this.userService.online = JSON.parse(data.content);
+      }
+      // Admin login
+      if (data.type == 'login_accepted'){
+        this.adminService.loginAccepted();
+        this.chatService.displayMessage();
+      }
+      if (data.type == 'login_rejected'){
+        alert("Wrong password!");
       }
     });
   }

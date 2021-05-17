@@ -30,7 +30,6 @@ main{
 
 @media (min-width: 768px){
     .single-message {
-        background-color: var(--supergreen);
         flex-basis: 0;
         min-width: 15%;
         max-width: 60%;
@@ -39,6 +38,28 @@ main{
 
 .single-message.white {
     background-color: #FFFFFF;
+}
+
+.admin .single-message.white {
+    background-color: #434343;
+    color: white;
+}
+
+.admin .single-message.white .header {
+    color: lightgray;
+}
+
+.admin .single-message {
+    background-color: #00422A;
+    color: white;
+}
+
+.admin .single-message .header {
+    color: lightgray;
+}
+
+main.admin {
+    background-color: #1A1A1A;
 }
 
 .single-message .username {

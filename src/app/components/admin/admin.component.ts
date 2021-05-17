@@ -15,4 +15,9 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public login(password: string){
+    this.password = "";
+    this.adminService.login(password)
+  }
+
 }
