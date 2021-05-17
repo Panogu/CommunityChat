@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
+import { AdminService } from 'src/app/shared/services/admin.service';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +9,16 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public usernameService: UserService) { }
+  @Output() sidebarToggled = new EventEmitter<string>();
+
+  constructor(public usernameService: UserService, public adminService: AdminService) { }
 
   ngOnInit(): void {
+  }
+
+  public toggleSidebar(){
+    console.log("toggled!");
+    this.sidebarToggled.emit('toggle');
   }
 
 }

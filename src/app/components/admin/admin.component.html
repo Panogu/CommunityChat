@@ -1,0 +1,17 @@
+<div class="password-overlay">
+    <a href="javascript:void(0);" class="close-icon" style="color: white;" (click)="adminService.close()">
+        <mat-icon aria-hidden="false" aria-label="Send">close</mat-icon>
+    </a>
+
+    <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+        <input
+        [(ngModel)]="password"
+        placeholder="Password"
+        class="col-6 form-control rounded-pill mat-elevation-z2 border-none"
+        (keyup.enter)="adminService.login(password)"
+        >
+        <button type="submit" class="input-button mat-elevation-z2 rounded-circle d-flex align-items-center ml-2">
+            <mat-icon aria-hidden="false" aria-label="Send" (click)="adminService.login(password)">lock_open</mat-icon>
+        </button>
+    </div>
+</div>

@@ -20,6 +20,7 @@ export class DistributorService {
         // Create the person if the server accepts it
         this.userService.person = JSON.parse(data.content);
         this.websocketService.sendToWebsocket('request_history', '');
+        this.websocketService.sendToWebsocket('request_users', '');
       }
       if (data.type == 'username_rejected'){
 
@@ -33,6 +34,21 @@ export class DistributorService {
         console.log("Response from websocket: " + data.type);
         this.chatService.messages = JSON.parse(data.content);
         this.chatService.displayMessage();
+      }
+      // Add all users
+      if (data.type == 'users_online'){
+        console.log("Response from websocket: " + data.type);
+        this.userService.online = JSON.parse(data.content);
+      }
+      // Add a new user when he/she logged in
+      if (data.type == 'user_logged_in'){
+        console.log("Response from websocket: " + data.type);
+        this.userService.online.push(JSON.parse(data.content));
+      }
+      // Remove disconnected users
+      if (data.type == 'user_logged_out'){
+        console.log("Response from websocket: " + data.type);
+        this.userService.online = JSON.parse(data.content);
       }
     });
   }

@@ -1,4 +1,4 @@
-<div class="input-field mat-elevation-z4">
+<div class="input-field mat-elevation-z4" [ngClass]="{'admin': adminService.showAdminTheme}">
     <input
     [(ngModel)]="message_text"
     placeholder="Schreib etwas..."
@@ -7,7 +7,7 @@
 
     [attr.disabled]="usernameService.person.id != -1 ? null : ''"
     >
-    <button type="button" (click)="addMessage(message_text)" class="input-button mr-4 rounded-circle d-flex align-items-center" [attr.disabled]="usernameService.person.id != -1 ? null : ''">
+    <button type="button" (click)="addMessage(message_text)" class="input-button mr-4 rounded-circle d-flex align-items-center" [attr.disabled]="(adminService.opened || usernameService.person.id == -1) ? '' : null">
         <mat-icon aria-hidden="false" aria-label="Send">send</mat-icon>
     </button>
 </div>

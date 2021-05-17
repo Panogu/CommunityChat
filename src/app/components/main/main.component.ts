@@ -3,6 +3,7 @@ import { Message } from '../../shared/model/message';
 import { ChatService } from '../../shared/services/chat.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Subscription } from 'rxjs';
+import { AdminService } from 'src/app/shared/services/admin.service';
 
 @Component({
   selector: 'app-main',
@@ -12,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 export class MainComponent implements OnInit {
 
-  constructor(public chatService: ChatService, public usernameService: UserService) {  }
+  constructor(public chatService: ChatService, public usernameService: UserService, public adminService: AdminService) {  }
 
   ngOnInit(): void {
     this.chatService.subscribe(() => {
@@ -27,6 +28,26 @@ export class MainComponent implements OnInit {
 
   public getTimeFromTimestamp (timestamp: number): string {
     return new Date(timestamp).toLocaleTimeString()/*.slice(0, -3)*/;
+  }
+
+
+  // Display the three different types of main view
+  public displayMe(name: string): boolean {
+    if (name == "username-input" && this.usernameService.person.id == -1){
+      return true;
+    }
+    if (name == "admin" && this.usernameService.person.id != -1 && this.adminService.opened == true){
+      return true;
+    }
+    if (name == "chatverlauf" && this.usernameService.person.id != -1 && this.adminService.opened == false) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public deleteMessage(){
+    
   }
 
 }

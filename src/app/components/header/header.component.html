@@ -1,8 +1,8 @@
 <header>
-    <mat-toolbar class="mat-elevation-z6">
-        <img src="../../../assets/images/logo_de.jpg">
-        <div *ngIf="usernameService.person.username" class="ml-auto username">
-            <span>Nutzername: <span [ngStyle]="{'color': usernameService.person.color}" [innerHTML]="usernameService.getSlicedUsername(usernameService.person.username, 25)"></span></span>
-        </div>
+    <mat-toolbar class="mat-elevation-z6" [ngClass]="{'admin': adminService.showAdminTheme}">
+        <img src="../../../assets/images/HSG_Logo_D_RGB_edited.png">
+        <a href="javascript:void(0);" class="ml-auto" (click)="toggleSidebar()">
+            <mat-icon aria-hidden="false" aria-label="Send">menu</mat-icon>
+        </a>
     </mat-toolbar>
 </header>

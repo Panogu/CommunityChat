@@ -1,11 +1,18 @@
-<app-username-input *ngIf="usernameService.person.id == -1"></app-username-input>
+<app-username-input *ngIf="displayMe('username-input')"></app-username-input>
+<app-admin *ngIf="displayMe('admin')"></app-admin>
 
-<main *ngIf="usernameService.person.id != -1" id="chatverlauf-container">
+<main *ngIf="displayMe('chatverlauf')" id="chatverlauf-container">
     <div id="chatverlauf" class="chatverlauf d-flex flex-column w-100 px-3">
-        <div [class.white] = "usernameService.person.id != message.user.id" [class.align-self-end] = "usernameService.person.id === message.user.id" class="mx-2 mx-lg-5 single-message rounded-lg border border-dark my-3 col-9 col-lg-6 p-2" *ngFor="let message of chatService.messages; let i = index">
+        <div [ngClass]="(usernameService.person.id === message.user.id ? 'align-self-end' : 'align-self-start') + ' ' + (usernameService.person.id != message.user.id ? 'white' : '')" class="mx-2 mx-lg-5 single-message rounded-lg mat-elevation-z3 my-3 p-2" *ngFor="let message of chatService.messages; let i = index">
             <div class="header d-flex justify-content-between mb-2">
                 <span class="username" [ngStyle]="{'color': message.user.color}" [innerHTML]="usernameService.getSlicedUsername(message.user.username, 25)"></span>
                 <span>{{getTimeFromTimestamp(message.timestamp)}}</span>
+                
+                <span *ngIf="adminService.loggedIn" class="closing-icon">
+                    <a href="javascript:void(0);" (click)="deleteMessage()">
+                        <mat-icon aria-hidden="false" aria-label="Cancel">cancel</mat-icon>
+                    </a>
+                </span>
             </div>
             <div class="content" [innerHTML]=[message.content]>
                 

@@ -1,5 +1,4 @@
 img{
-    margin-bottom: auto;
     max-height:80%;
 }
 
@@ -7,20 +6,17 @@ mat-toolbar{
     background-color: white;
     height: 80px;
     overflow: hidden;
+    z-index: 50;
 }
 
-.username{
-    font-weight: 400;
+mat-toolbar.admin{
+    background-color: #434343;
 }
 
-@media (max-width: 575.98px){
-    .username{
-        font-size: 10px;
-    } 
+mat-toolbar a{
+    color: black
 }
 
-@media (max-width: 400px){
-    .username{
-        font-size: 12px;
-    } 
+mat-toolbar.admin a{
+    color: white;
 }

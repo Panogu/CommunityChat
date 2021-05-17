@@ -8,7 +8,7 @@ import { Person } from '../model/person';
 export class UserService {
 
   public person: Person;
-  public userColor = "#00000";
+  public online: Person[] = [];
 
   constructor(private websocketService: WebsocketService) {
     // Init the empty person

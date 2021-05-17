@@ -3,6 +3,10 @@
     background-color: lightgrey;
 }
 
+input.border-none{
+    border: none;
+}
+
 .input-button{
     width: 40px;
     height: 40px;

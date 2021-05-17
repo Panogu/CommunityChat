@@ -14,6 +14,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { FormsModule } from '@angular/forms';
 import { UsernameInputComponent } from './components/username-input/username-input.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { UsernameInputComponent } from './components/username-input/username-inp
     FooterComponent,
     MainComponent,
     InputFieldComponent,
-    UsernameInputComponent
+    UsernameInputComponent,
+    SidebarComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

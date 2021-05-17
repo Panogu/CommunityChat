@@ -1,0 +1,29 @@
+<div class="sidebar mat-elevation-z6" [ngClass]="{'hidden' : display == false, 'admin': adminService.showAdminTheme}">
+    <div class="inner w-100 h-100 px-3 pb-3 d-flex flex-column">
+        <div class="d-flex align-items-center head w-100">
+            <div *ngIf="usernameService.person.username" class="mr-auto username">
+                <span>Nutzername: <br><span [ngStyle]="{'color': usernameService.person.color}" [innerHTML]="usernameService.getSlicedUsername(usernameService.person.username, 25)"></span></span>
+            </div>
+        
+            <a href="javascript:void(0);" class="ml-auto" (click)="toggleSidebar()">
+                <mat-icon aria-hidden="false" aria-label="Close">close</mat-icon>
+            </a>
+        </div>
+        
+        <hr class="ruler top">
+    
+        <div class="username-list">
+            <span class="mb-2" style="color: gray;">Benutzer online</span>
+
+            <span class="online-user mb-2" [ngStyle]="{'color': user.color}" *ngFor="let user of usernameService.online; let i = index">
+                {{user.username}}
+            </span>
+        </div>
+
+        <hr class="ruler bottom">
+
+        <a *ngIf="usernameService.person.id != -1" href="javascript:void(0);" class="login-link mt-auto w-100" (click)="openLogin()">
+            Admin Login
+        </a>
+    </div>
+</div>

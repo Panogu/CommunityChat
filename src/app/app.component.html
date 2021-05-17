@@ -1,4 +1,5 @@
-<app-header></app-header>
+<app-header (sidebarToggled)="onToggleSidebar($event)"></app-header>
 <app-main></app-main>
+<app-sidebar (sidebarToggled)="onToggleSidebar($event)" [display]="displaySidebar"></app-sidebar>
 <app-input-field></app-input-field>
 <app-footer></app-footer>

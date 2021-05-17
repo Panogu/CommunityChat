@@ -1,3 +1,57 @@
+// websocket and http servers
+var webSocketServer = require('websocket').server;
+var http = require('http');
+// Passwort (unencrypted, only for test purposes)
+let password = "Secret4Community";
+// Absolute index for the users
+let absolute_index = 0;
+// A dict for storing the connection indexes
+let connection_dict = {};
+// Filesystem
+var fs = require('fs');
+function writeMessageToFile(message) {
+    fs.readFile('messages.json', 'utf8', function (err, data) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            const file = JSON.parse(data);
+            // Set the correct ID in every case
+            message.id = file.messages.length;
+            // Push the message
+            file.messages.push(message);
+            // Save the file
+            const json = JSON.stringify(file);
+            fs.writeFile('messages.json', json, 'utf8', function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        }
+    });
+}
+function getMessageID() {
+    fs.readFile('messages.json', 'utf8', function (err, data) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            const file = JSON.parse(data);
+            return file.messages.length;
+        }
+    });
+}
+function getMessagesFromFile() {
+    try {
+        let content = fs.readFileSync('messages.json', 'utf8');
+        let parsed = JSON.parse(content);
+        return parsed.messages;
+    }
+    catch (err) {
+        console.log(err);
+        return [];
+    }
+}
 // https://stackoverflow.com/questions/10756313/javascript-jquery-map-a-range-of-numbers-to-another-range-of-numbers
 function scale(number, inMin, inMax, outMin, outMax) {
     return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
@@ -6,7 +60,7 @@ function scale(number, inMin, inMax, outMin, outMax) {
 function generateColor(colors, colorNum) {
     if (colors < 1)
         colors = 1; // defaults to one color - avoid dividing by zero
-    console.log(colorNum);
+    //console.log(colorNum);
     // Split the color wheel in three quarters (two bright, one dark)
     let color_position = colorNum / colors;
     if (color_position < 0.375) {
@@ -30,14 +84,12 @@ function generateColor(colors, colorNum) {
 process.title = 'CommunityChat';
 // Port where we'll run the websocket server
 var webSocketsServerPort = 1337;
-// websocket and http servers
-var webSocketServer = require('websocket').server;
-var http = require('http');
 /**
  * Global variables
  */
 // latest 100 messages
 var messageHistory = [];
+messageHistory = getMessagesFromFile().slice(-100);
 // Users
 var persons = [];
 // list of currently connected clients (users)
@@ -79,9 +131,13 @@ wsServer.on('request', function (request) {
     // (http://en.wikipedia.org/wiki/Same_origin_policy)
     var connection = request.accept(null, request.origin);
     // we need to know client index to remove them on 'close' event
-    var index = clients.push(connection) - 1;
+    clients.push(connection);
+    var index = absolute_index;
+    connection_dict[index] = clients.length - 1;
+    absolute_index++;
     let username = "";
-    //var userColor = false;  console.log((new Date()) + ' Connection accepted.');  // send back chat history
+    //var userColor = false; 
+    console.log((new Date()) + ' Connection accepted.'); // send back chat history
     if (messageHistory.length > 0) {
         connection.sendUTF(JSON.stringify({ type: 'history', data: messageHistory }));
     }
@@ -92,28 +148,27 @@ wsServer.on('request', function (request) {
             let incoming_parsed = JSON.parse(incoming.utf8Data);
             // first message sent by user is their name     
             if (incoming_parsed.type == 'register_user') {
-                // remember user name
-                username = htmlEntities(incoming_parsed.content);
-                /*persons.forEach(person => {
-                  if (person.username = username){
-                    console.log((new Date()) + ' Username already exists ' + username);
-                    connection.sendUTF(
-                      JSON.stringify({ type: 'username_rejected', content: JSON.stringify(username) })
-                    );
-                    return;
-                  }
-                });*/
-                // get random color and send it back to the user
+                // get random color to send back to the user
                 let userColor = generateColor(75, Math.floor(Math.random() * 75));
+                // Create the person and increase the index
                 let newPerson = {
-                    id: persons.length,
-                    username: username,
+                    id: index,
+                    username: htmlEntities(incoming_parsed.content),
                     color: userColor
                 };
                 persons.push(newPerson);
-                console.log((new Date()) + ' New user is known as: ' + newPerson.username + ' with ID: ' + newPerson.id + ' and color: ' + newPerson.color);
-                // Send the new person
+                console.log((new Date()) + ' New user is known as: ' + newPerson.username + ' with ID: ' + newPerson.id + ' and index ' + connection_dict[index] /*+ ' and color: ' + newPerson.color*/);
+                // Send accepted
                 connection.sendUTF(JSON.stringify({ type: 'username_accepted', content: JSON.stringify(newPerson) }));
+                // Broadcast the new person to all clients
+                let json = JSON.stringify({ type: 'user_logged_in', content: JSON.stringify(newPerson) });
+                for (var i = 0; i < clients.length; i++) {
+                    clients[i].sendUTF(json);
+                }
+            }
+            else if (incoming_parsed.type == "request_users") {
+                // Send all online users
+                connection.sendUTF(JSON.stringify({ type: 'users_online', content: JSON.stringify(persons) }));
             }
             else if (incoming_parsed.type == "request_history") {
                 // Send history
@@ -132,10 +187,13 @@ wsServer.on('request', function (request) {
                     content: htmlEntities(message.content)
                 };
                 messageHistory.push(newMessage);
+                // Write the message to the file
+                writeMessageToFile(newMessage);
                 console.log("New Message: ");
                 console.log(newMessage);
-                messageHistory = messageHistory.slice(-100); // broadcast message to all connected clients
-                var json = JSON.stringify({ type: 'message', content: JSON.stringify(newMessage) });
+                messageHistory = messageHistory.slice(-100);
+                // broadcast message to all connected clients
+                let json = JSON.stringify({ type: 'message', content: JSON.stringify(newMessage) });
                 for (var i = 0; i < clients.length; i++) {
                     clients[i].sendUTF(json);
                 }
@@ -144,13 +202,38 @@ wsServer.on('request', function (request) {
     });
     // user disconnected
     connection.on('close', function (connection) {
-        if (username != "") {
-            console.log((new Date()) + " Peer " + connection.remoteAddress + " disconnected.");
-            // remove user from the list of connected clients
-            clients.splice(index, 1);
-            // push back user's color to be reused by another user
-            //colors.push(userColor);
+        // ERROR INDIZES KÖNNEN DOPPELT VERGEBEN WERDEN! - FIXME - INDIZES MÜSSEN NEU VERGEBEN WERDEN, WENN JEMAND DISCONNECTED
+        console.log(index);
+        console.log(connection_dict);
+        let place_index = connection_dict[index];
+        console.log(place_index);
+        let currentUser = persons[place_index];
+        console.log(currentUser);
+        console.log(persons);
+        if (currentUser) {
+            console.log((new Date()) + " User " + currentUser.username + " with ID: " + currentUser.id + " disconnected.");
+            // Remove user from the list of connected clients
+            clients.splice(place_index, 1);
+            // Remove user from users online
+            persons.splice(place_index, 1);
+            // Broadcast the new user list to all clients
+            let json = JSON.stringify({ type: 'user_logged_out', content: JSON.stringify(persons) });
+            for (var i = 0; i < clients.length; i++) {
+                clients[i].sendUTF(json);
+            }
         }
+        else {
+            clients.splice(place_index, 1);
+            console.log((new Date()) + " Error on disconnecting!");
+        }
+        // "Remove" the disconnected user from the dict
+        for (let key in connection_dict) {
+            if (connection_dict[key] >= connection_dict[index]) {
+                connection_dict[key]--;
+            }
+        }
+        delete (connection_dict[index]);
+        console.log(clients.length);
     });
 });
 //# sourceMappingURL=app.js.map

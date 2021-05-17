@@ -3,10 +3,10 @@
         <input
         [(ngModel)]="username"
         placeholder="Nutzernamen wählen"
-        class="col-6 form-control rounded-pill shadow-sm"
+        class="col-6 form-control rounded-pill mat-elevation-z2 border-none"
         (keyup.enter)="setUsername(username)"
         >
-        <button type="submit" class="input-button shadow rounded-circle d-flex align-items-center ml-2">
+        <button type="submit" class="input-button mat-elevation-z2 rounded-circle d-flex align-items-center ml-2">
             <mat-icon aria-hidden="false" aria-label="Send" (click)="setUsername(username)">check</mat-icon>
         </button>
     </div>

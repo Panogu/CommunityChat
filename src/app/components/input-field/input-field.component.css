@@ -9,6 +9,17 @@
     justify-content: center;
 }
 
+.input-field.admin{
+    background-color: #434343;
+}
+
+.admin input,
+.admin input:focus{
+    background-color: black;
+    color: white;
+    border: none;
+}
+
 .input-button{
     width: 40px;
     height: 40px;
